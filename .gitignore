@@ -1,0 +1,29 @@
+# Local design notes (not published yet)
+ARCHITECTURE.md
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# LLM response cache
+.cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+
+# task files
+TASK.md
+DOMAIN.md
+fleet.json
+emails/
