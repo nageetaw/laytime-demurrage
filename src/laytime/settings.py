@@ -52,5 +52,5 @@ def setup_logging(level: str) -> None:
     root.handlers = [handler]
     root.setLevel(level.upper())
     
-    for noisy in ("httpx", "openai"):
+    for noisy in ("httpx", "httpx2", "openai"):
         logging.getLogger(noisy).setLevel(logging.WARNING)

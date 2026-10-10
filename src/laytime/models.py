@@ -128,3 +128,46 @@ class Check(BaseModel):
     message: str
     sources: list[str] = []
     impact_usd: float | None = None
+
+
+class Deduction(BaseModel):
+    """A stoppage or shift inside the laytime window and how much of it was taken off."""
+
+    reason: str
+    category: DeductionCategory
+    start: Fact[AwareDatetime]
+    end: Fact[AwareDatetime]
+    hours: float  # the part inside the laytime window
+    counts_as_laytime: float
+    deducted_hours: float
+
+
+class PortLaytime(BaseModel):
+    port: str
+    function: str
+    nor_tendered: Fact[AwareDatetime]
+    turn_time_hours: float
+    start: AwareDatetime
+    end: Fact[AwareDatetime] | None  # None while cargo operations are still running
+    counted_until: AwareDatetime
+    gross_hours: float
+    deductions: list[Deduction]
+    used_hours: float
+
+
+class Demurrage(BaseModel):
+    status: Literal["final", "provisional"]
+    allowed_hours: float
+    used_hours: float
+    hours_on_demurrage: float
+    on_demurrage_from: AwareDatetime | None
+    rate_per_day: float
+    currency: str
+    amount: float
+    formula: str
+
+
+class LaytimeResult(BaseModel):
+    ports: list[PortLaytime]
+    demurrage: Demurrage
+    checks: list[Check]
