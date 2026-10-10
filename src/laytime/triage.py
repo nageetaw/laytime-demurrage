@@ -13,9 +13,10 @@ log = logging.getLogger(__name__)
 
 
 class TriageAnswer(BaseModel):
+    # Reason first: the model states what the email says before it picks the labels.
+    reason: str
     doc_type: DocType
     relevance: Relevance
-    reason: str
 
 
 def triage(
