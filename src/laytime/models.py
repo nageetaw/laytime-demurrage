@@ -171,3 +171,54 @@ class LaytimeResult(BaseModel):
     ports: list[PortLaytime]
     demurrage: Demurrage
     checks: list[Check]
+
+
+class EmailTriage(BaseModel):
+    """One row per email: which vessel it is about and whether it matters for the voyage."""
+
+    file: str
+    subject: str
+    sent_at: AwareDatetime
+    vessels: list[str]
+    doc_type: DocType | None  # None when set aside before the LLM
+    relevance: Relevance
+    reason: str
+
+
+class EventObservation(BaseModel):
+    """One email's report of one event, before reconciling with other emails."""
+
+    port: str
+    type: EventType
+    time: AwareDatetime
+    is_estimate: bool
+    source: str
+    quote: str
+    doc_type: DocType
+    sent_at: AwareDatetime
+
+
+class StoppageObservation(BaseModel):
+    """One email's report of one stoppage, before reconciling with other emails."""
+
+    port: str
+    category: DeductionCategory
+    reason: str
+    start: AwareDatetime
+    end: AwareDatetime
+    start_quote: str
+    end_quote: str
+    source: str
+    doc_type: DocType
+    sent_at: AwareDatetime
+
+
+class ContractObservation(BaseModel):
+    """Contract terms stated in one email. An addendum states only the terms it changes."""
+
+    source: str
+    doc_type: DocType
+    sent_at: AwareDatetime
+    currency: str | None = None
+    terms: dict[str, Fact] = {}  # Contract field name -> value with citation
+    counts_as_laytime: dict[DeductionCategory, Fact[float]] = {}
