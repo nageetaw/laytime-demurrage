@@ -44,6 +44,8 @@ def test_second_identical_call_comes_from_the_cache(tmp_path):
     assert (usage["llm_calls"], usage["cached_calls"]) == (2, 1)
     # Cost is reported as for an uncached run, so it does not change between re-runs.
     assert usage["cost_usd"] == 0.002
+    # ...but only the first call was paid for in this run.
+    assert usage["spent_usd"] == 0.001
 
 
 def test_invalid_answer_is_retried(tmp_path):

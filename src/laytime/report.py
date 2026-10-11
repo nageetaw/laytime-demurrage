@@ -108,8 +108,7 @@ def build(r: VoyageResult, settings: Settings, usage: dict) -> Result:
     )
 
 
-def write(result: Result, out_dir: Path) -> Path:
-    folder = out_dir / result.summary.voyage
+def write(result: Result, folder: Path) -> Path:
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "result.json").write_text(result.model_dump_json(indent=2) + "\n")
     (folder / "brief.md").write_text(render_brief(result))

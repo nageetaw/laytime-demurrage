@@ -14,7 +14,7 @@ dist/
 build/
 
 # LLM response cache
-.cache/
+.cache*/
 
 # OS / editor
 .DS_Store

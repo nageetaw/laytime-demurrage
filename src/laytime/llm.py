@@ -3,6 +3,7 @@
 import hashlib
 import json
 import logging
+import time
 from pathlib import Path
 from typing import TypeVar
 
@@ -32,6 +33,7 @@ class CallRecord(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     cost_usd: float
+    seconds: float = 0.0  # API time; for a cached answer, the time it took when first asked
     cached: bool
 
 
@@ -69,6 +71,7 @@ class LLMClient:
 
         messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
         usage = {"prompt_tokens": 0, "completion_tokens": 0, "cost_usd": 0.0}
+        started = time.perf_counter()
         for attempt in range(self._max_retries + 1):
             response = self._client.chat.completions.create(
                 model=model,
@@ -92,6 +95,7 @@ class LLMClient:
                     {"role": "user", "content": f"That answer is invalid:\n{error}\nReply again with JSON that matches the schema."},
                 ]
                 continue
+            usage["seconds"] = round(time.perf_counter() - started, 2)
             cache_file.write_text(json.dumps({"answer": answer, "usage": usage}))
             self._record(CallRecord(label=label, model=model, cached=False, **usage))
             return result
@@ -103,8 +107,13 @@ class LLMClient:
             "cached_calls": sum(c.cached for c in self.calls),
             "prompt_tokens": sum(c.prompt_tokens for c in self.calls),
             "completion_tokens": sum(c.completion_tokens for c in self.calls),
-            # What a run costs without the cache, so the figure is the same on every re-run.
+            # Cost and time of a full run as if nothing were cached, so models compare fairly;
+            # cached answers carry the cost and time recorded when they were first asked.
             "cost_usd": round(sum(c.cost_usd for c in self.calls), 4),
+            "llm_seconds": round(sum(c.seconds for c in self.calls), 1),
+            "slowest_call_seconds": max((c.seconds for c in self.calls), default=0.0),
+            # What this run actually paid: only the calls that were not in the cache.
+            "spent_usd": round(sum(c.cost_usd for c in self.calls if not c.cached), 4),
         }
 
     def _record(self, call: CallRecord) -> None:
