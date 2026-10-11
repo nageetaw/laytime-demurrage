@@ -18,8 +18,8 @@ class GateDecision(BaseModel):
 
 
 def gate(emails: list[Email], fleet: Fleet) -> list[GateDecision]:
-    by_id = {e.message_id: e for e in emails}
-    decisions = [_decide(email, _vessels_about(email, by_id, fleet)) for email in emails]
+    emails_by_id = {e.message_id: e for e in emails}
+    decisions = [_decide(email, _vessels_about(email, emails_by_id, fleet)) for email in emails]
     for d in decisions:
         log.info(
             "passed" if d.passed else f"set aside: {d.reason}",
@@ -32,7 +32,7 @@ def gate(emails: list[Email], fleet: Fleet) -> list[GateDecision]:
     return decisions
 
 
-def _vessels_about(email: Email, by_id: dict[str, Email], fleet: Fleet) -> list[Vessel]:
+def _vessels_about(email: Email, emails_by_id: dict[str, Email], fleet: Fleet) -> list[Vessel]:
     """Fleet vessels named in the subject or the sender's own text.
 
     A reply that names none inherits them from the email it answers.
@@ -44,7 +44,7 @@ def _vessels_about(email: Email, by_id: dict[str, Email], fleet: Fleet) -> list[
         vessels = fleet.mentioned_in(f"{current.subject}\n{current.authored_text}")
         if vessels:
             return vessels
-        current = by_id.get(current.in_reply_to or "")
+        current = emails_by_id.get(current.in_reply_to or "")
     return []
 
 

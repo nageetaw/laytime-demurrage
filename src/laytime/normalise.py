@@ -6,10 +6,10 @@ email it claims to come from.
 
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from laytime.extract import ContractAnswer, Duration, EventsAnswer, Extraction
-from laytime.fleet import PortCall, Voyage, parse_utc_offset
+from laytime.fleet import PortCall, Voyage
 from laytime.models import (
     Check,
     ContractObservation,
@@ -35,6 +35,9 @@ class Observations:
 def normalise(extractions: list[Extraction], voyage: Voyage) -> Observations:
     out = Observations()
     for x in extractions:
+        if x.error is not None:
+            out.checks.append(Check(severity="high", message=f"Could not read this email: {x.error}",
+                                    sources=[x.email.file]))
         if x.contract is not None:
             out.contracts.append(_contract(x, x.contract, out.checks))
         if x.events is not None:
@@ -47,19 +50,17 @@ def normalise(extractions: list[Extraction], voyage: Voyage) -> Observations:
     return out
 
 
-def resolve_time(local: datetime, time_zone: str, port: PortCall) -> tuple[datetime, str | None]:
-    """Attach a time zone: UTC, the port's own offset, or the offset the email states.
+def resolve_time(local: datetime, utc_offset_hours: float | None, port: PortCall) -> tuple[datetime, str | None]:
+    """Attach a time zone: the port's own offset (no label), UTC, or the offset the email states.
 
-    Returns a warning when a stated offset differs from the port's offset in fleet.json.
+    Returns a warning when a stated local offset differs from the port's offset in fleet.json.
     """
-    if time_zone == "UTC":
-        return local.replace(tzinfo=timezone.utc), None
-    if time_zone == "local":
+    if utc_offset_hours is None:
         return local.replace(tzinfo=port.tz), None
-    stated = parse_utc_offset(time_zone)
+    stated = timezone(timedelta(hours=utc_offset_hours))
     warning = None
-    if stated != port.tz:
-        warning = f"{port.port}: email states UTC{time_zone} but the port is UTC{port.utc_offset}"
+    if utc_offset_hours != 0 and stated != port.tz:
+        warning = f"{port.port}: email states UTC{utc_offset_hours:+g} but the port is UTC{port.utc_offset}"
     return local.replace(tzinfo=stated), warning
 
 
@@ -67,7 +68,8 @@ def quote_found(quote: str, email: Email) -> bool:
     """True if the quote appears in the sender's text or subject, ignoring case and spacing."""
 
     def flat(text: str) -> str:
-        return " ".join(text.split()).casefold()
+        # Models sometimes write a line break inside a quote as the two characters "\n".
+        return " ".join(text.replace("\\n", " ").split()).casefold()
 
     return bool(quote.strip()) and flat(quote) in flat(f"{email.subject}\n{email.authored_text}")
 
@@ -108,7 +110,7 @@ def _events(x: Extraction, answer: EventsAnswer, voyage: Voyage, out: Observatio
             log.info("event outside the itinerary ignored",
                      extra={"stage": "normalise", "email": email.file, "event": e.type})
             continue
-        time, warning = resolve_time(e.local_time, e.time_zone, port)
+        time, warning = resolve_time(e.local_time, e.utc_offset_hours, port)
         if warning:
             out.checks.append(Check(severity="medium", message=warning, sources=[email.file]))
         if not e.is_estimate and time > email.sent_at:
@@ -128,8 +130,8 @@ def _events(x: Extraction, answer: EventsAnswer, voyage: Voyage, out: Observatio
         port = _port(s.port, voyage)
         if port is None:
             continue
-        start, warning = resolve_time(s.start, s.time_zone, port)
-        end, _ = resolve_time(s.end, s.time_zone, port)
+        start, warning = resolve_time(s.start, s.utc_offset_hours, port)
+        end, _ = resolve_time(s.end, s.utc_offset_hours, port)
         if warning:
             out.checks.append(Check(severity="medium", message=warning, sources=[email.file]))
         if not start < end <= email.sent_at:

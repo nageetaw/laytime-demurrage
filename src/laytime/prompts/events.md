@@ -8,14 +8,14 @@ vessels, report only the given vessel.
 Every item comes with a quote: text copied exactly from the email (one line, or the shortest
 continuous passage) that states it. Do not reword, shorten or combine quotes.
 
-**Times.** Give `local_time` as a full date and time (`YYYY-MM-DDTHH:MM`) exactly as the email
-states it, with no conversion. When the email leaves out the year or month (e.g. `15/1630`
-means the 15th at 16:30), take them from the date the email was sent. When an estimate gives no
-time of day, use 12:00 for a day, or 15:00 for an afternoon (`PM`) or 09:00 for a morning (`AM`).
-Give `time_zone` as written in the email:
-- `UTC` if the time is labelled UTC, GMT or Z;
-- an offset such as `+01:00` if the email names a zone or offset (e.g. CET, WAT, UTC+1);
-- `local` if it says local time (LT) or gives no label.
+**Times.** Give each time as `YYYY-MM-DDTHH:MM`, exactly as the email states it, with no
+conversion and no time zone in the string. When the email leaves out the year or month (e.g.
+`15/1630` means the 15th at 16:30), take them from the date the email was sent. When an estimate
+gives no time of day, use 12:00 for a day, or 15:00 for an afternoon (`PM`) or 09:00 for a
+morning (`AM`). Give `utc_offset_hours` from the email's label for that time:
+- `0` if the time is labelled UTC, GMT or Z;
+- the offset in hours if the email names a zone or offset (e.g. CET, WAT or UTC+1 → `1`);
+- `null` if it says local time (LT) or gives no label.
 
 **events**: one entry per event and port. `port` is the port's name as written in the
 itinerary, or as written in the email if it is not in the itinerary.

@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import pytest
 from pydantic import BaseModel
 
-from laytime.llm import LLMClient
+from laytime.llm import LLMClient, LLMError
 from laytime.settings import Settings
 
 
@@ -54,7 +54,7 @@ def test_invalid_answer_is_retried(tmp_path):
 
 def test_gives_up_after_max_retries(tmp_path):
     llm, _ = client(tmp_path, ["not json", "still not json"], max_retries=1)
-    with pytest.raises(RuntimeError, match="no valid answer"):
+    with pytest.raises(LLMError, match="no valid answer"):
         ask(llm)
 
 

@@ -11,6 +11,9 @@ dependencies = [
     "python-json-logger>=3.1",
 ]
 
+[project.scripts]
+laytime = "laytime.cli:main"
+
 [dependency-groups]
 dev = [
     "pytest>=8.0",

@@ -49,10 +49,7 @@ def read_email(path: Path) -> Email:
 
 
 def read_inbox(folder: Path) -> list[Email]:
-    """All `.eml` files in the folder, oldest first by the time they were sent.
-
-    File names are never used for ordering; Message-ID only breaks exact ties.
-    """
+    """All `.eml` files in the folder, oldest first by the time they were sent."""
     emails = sorted(
         (read_email(path) for path in folder.glob("*.eml")),
         key=lambda e: (e.sent_at, e.message_id),

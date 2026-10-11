@@ -22,6 +22,10 @@ def load_prompt(name: str) -> str:
     return (PROMPTS_DIR / f"{name}.md").read_text()
 
 
+class LLMError(Exception):
+    """No valid answer after all retries."""
+
+
 class CallRecord(BaseModel):
     label: str
     model: str
@@ -77,7 +81,12 @@ class LLMClient:
             try:
                 result = schema.model_validate_json(answer)
             except ValidationError as error:
-                log.warning("answer did not match schema", extra={"stage": "llm", "label": label, "attempt": attempt + 1})
+                # Field names and error types only: the values come from the email.
+                problems = [f"{'.'.join(map(str, e['loc']))}: {e['type']}" for e in error.errors()]
+                log.warning(
+                    "answer did not match schema",
+                    extra={"stage": "llm", "label": label, "attempt": attempt + 1, "problems": problems[:5]},
+                )
                 messages += [
                     {"role": "assistant", "content": answer},
                     {"role": "user", "content": f"That answer is invalid:\n{error}\nReply again with JSON that matches the schema."},
@@ -86,7 +95,7 @@ class LLMClient:
             cache_file.write_text(json.dumps({"answer": answer, "usage": usage}))
             self._record(CallRecord(label=label, model=model, cached=False, **usage))
             return result
-        raise RuntimeError(f"{label}: no valid answer from {model} after {self._max_retries + 1} attempts")
+        raise LLMError(f"{label}: no valid answer from {model} after {self._max_retries + 1} attempts")
 
     def usage(self) -> dict:
         return {

@@ -1,12 +1,13 @@
 """Ask the LLM for the facts in each relevant email, each with the exact text it came from."""
 
 import logging
-from typing import Generic, Literal, TypeVar
+from datetime import datetime
+from typing import Annotated, Generic, Literal, TypeVar
 
-from pydantic import BaseModel, Field, NaiveDatetime
+from pydantic import BaseModel, BeforeValidator, Field, WithJsonSchema
 
 from laytime.fleet import Vessel
-from laytime.llm import LLMClient, load_prompt
+from laytime.llm import LLMClient, LLMError, load_prompt
 from laytime.models import DeductionCategory, DocType, Email, EmailTriage, EventType, Relevance
 
 log = logging.getLogger(__name__)
@@ -14,7 +15,26 @@ log = logging.getLogger(__name__)
 T = TypeVar("T")
 
 CONTRACT_DOCS = {DocType.RECAP, DocType.ADDENDUM}
-TIME_ZONE = Field(pattern=r"^(UTC|local|[+-]\d{2}:\d{2})$")
+
+
+def _wall_clock(value):
+    """Keep the date and time as written; drop any offset the model added (time zones are code's job)."""
+    if isinstance(value, str):
+        return datetime.fromisoformat(value).replace(tzinfo=None)
+    return value
+
+
+# A plain string in the schema: JSON's "date-time" format would require an offset.
+WallClock = Annotated[
+    datetime,
+    BeforeValidator(_wall_clock),
+    WithJsonSchema({"type": "string", "description": "YYYY-MM-DDTHH:MM as written in the email"}),
+]
+UtcOffsetHours = Annotated[
+    float | None,
+    Field(description="0 for UTC/GMT/Z; the offset for a named zone or offset (CET, WAT, UTC+1 -> 1); "
+                      "null for local time or no label"),
+]
 
 
 class Quoted(BaseModel, Generic[T]):
@@ -50,8 +70,8 @@ class ContractAnswer(BaseModel):
 class EventAnswer(BaseModel):
     port: str
     type: EventType
-    local_time: NaiveDatetime
-    time_zone: str = TIME_ZONE
+    local_time: WallClock
+    utc_offset_hours: UtcOffsetHours
     is_estimate: bool
     quote: str
 
@@ -60,9 +80,9 @@ class StoppageAnswer(BaseModel):
     port: str
     category: DeductionCategory
     reason: str
-    start: NaiveDatetime
-    end: NaiveDatetime
-    time_zone: str = TIME_ZONE
+    start: WallClock
+    end: WallClock
+    utc_offset_hours: UtcOffsetHours
     start_quote: str
     end_quote: str
 
@@ -77,6 +97,7 @@ class Extraction(BaseModel):
     doc_type: DocType
     contract: ContractAnswer | None = None
     events: EventsAnswer | None = None
+    error: str | None = None  # set when no valid answer came back
 
 
 def extract(
@@ -89,22 +110,20 @@ def extract(
         row = by_file[email.file]
         if row.relevance == Relevance.NONE or row.doc_type is None:
             continue
-        if row.doc_type in CONTRACT_DOCS:
+        is_contract = row.doc_type in CONTRACT_DOCS
+        kind, schema = ("contract", ContractAnswer) if is_contract else ("events", EventsAnswer)
+        try:
             answer = llm.ask(
-                model=model, system=load_prompt("contract"), user=_message(email), schema=ContractAnswer,
-                label=f"contract {email.file}",
+                model=model, system=load_prompt(kind), user=_message(email, None if is_contract else vessel),
+                schema=schema, label=f"{kind} {email.file}",
             )
-            results.append(Extraction(email=email, doc_type=row.doc_type, contract=answer))
-            log.info("contract extracted", extra={"stage": "extract", "email": email.file,
-                                                  "rules": len(answer.deduction_rules)})
-        else:
-            answer = llm.ask(
-                model=model, system=load_prompt("events"), user=_message(email, vessel), schema=EventsAnswer,
-                label=f"events {email.file}",
-            )
-            results.append(Extraction(email=email, doc_type=row.doc_type, events=answer))
-            log.info("events extracted", extra={"stage": "extract", "email": email.file,
-                                                "events": len(answer.events), "stoppages": len(answer.stoppages)})
+        except LLMError as error:
+            # One unreadable email should not stop the run; it becomes a check for a human.
+            log.error("extraction failed", extra={"stage": "extract", "email": email.file, "kind": kind})
+            results.append(Extraction(email=email, doc_type=row.doc_type, error=str(error)))
+            continue
+        results.append(Extraction(email=email, doc_type=row.doc_type, **{kind: answer}))
+        log.info("extracted", extra={"stage": "extract", "email": email.file, "kind": kind})
     return results
 
 

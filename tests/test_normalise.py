@@ -28,9 +28,9 @@ def make_email(text, sent="2026-02-20T09:15:00+00:00", file="a.eml"):
                  subject="KESTREL BAY", authored_text=text)
 
 
-def event(type_, local_time, time_zone="local", quote="", port="Cotonou", is_estimate=False):
+def event(type_, local_time, offset=None, quote="", port="Cotonou", is_estimate=False):
     return EventAnswer(port=port, type=type_, local_time=datetime.fromisoformat(local_time),
-                       time_zone=time_zone, is_estimate=is_estimate, quote=quote)
+                       utc_offset_hours=offset, is_estimate=is_estimate, quote=quote)
 
 
 def run(voyage, email, events=(), stoppages=(), contract=None, doc_type=DocType.SOF_FINAL):
@@ -40,16 +40,16 @@ def run(voyage, email, events=(), stoppages=(), contract=None, doc_type=DocType.
 
 def test_master_utc_and_agent_local_times_resolve_to_the_same_moment(voyage):
     port = voyage.itinerary[1]
-    master, _ = resolve_time(datetime(2026, 2, 15, 16, 30), "UTC", port)
-    agent, _ = resolve_time(datetime(2026, 2, 15, 17, 30), "local", port)
+    master, _ = resolve_time(datetime(2026, 2, 15, 16, 30), 0, port)
+    agent, _ = resolve_time(datetime(2026, 2, 15, 17, 30), None, port)
     assert master == agent
     assert agent.utcoffset() == timedelta(hours=1)
 
 
 def test_stated_offset_that_differs_from_the_port_is_flagged(voyage):
-    time, warning = resolve_time(datetime(2026, 2, 15, 17, 30), "+02:00", voyage.itinerary[1])
+    time, warning = resolve_time(datetime(2026, 2, 15, 17, 30), 2, voyage.itinerary[1])
     assert time.utcoffset() == timedelta(hours=2)
-    assert warning == "Cotonou: email states UTC+02:00 but the port is UTC+01:00"
+    assert warning == "Cotonou: email states UTC+2 but the port is UTC+01:00"
 
 
 def test_quote_matching_ignores_spacing_and_case():
@@ -61,7 +61,7 @@ def test_quote_matching_ignores_spacing_and_case():
 
 def test_events_are_resolved_and_cited(voyage):
     email = make_email("HOSES DISCONNECTED    20/0230")
-    obs = run(voyage, email, [event(EventType.HOSES_DISCONNECTED, "2026-02-20T02:30", "UTC",
+    obs = run(voyage, email, [event(EventType.HOSES_DISCONNECTED, "2026-02-20T02:30", 0,
                                     quote="HOSES DISCONNECTED 20/0230")])
     [e] = obs.events
     assert e.time == datetime(2026, 2, 20, 3, 30, tzinfo=CET)
@@ -71,7 +71,7 @@ def test_events_are_resolved_and_cited(voyage):
 
 def test_invented_quote_is_flagged_but_the_fact_is_kept(voyage):
     obs = run(voyage, make_email("NOR TENDERED 15/1630"),
-              [event(EventType.NOR_TENDERED, "2026-02-15T16:30", "UTC", quote="NOR tendered at 16:30 UTC")])
+              [event(EventType.NOR_TENDERED, "2026-02-15T16:30", 0, quote="NOR tendered at 16:30 UTC")])
     assert len(obs.events) == 1
     assert ["not found" in c.message for c in obs.checks] == [True]
 
@@ -79,7 +79,7 @@ def test_invented_quote_is_flagged_but_the_fact_is_kept(voyage):
 def test_actual_event_after_the_email_was_sent_is_ignored(voyage):
     # A wrong year or month shows up as an "actual" event in the future.
     email = make_email("HOSES DISCONNECTED 20/0230", sent="2026-01-20T09:00:00+00:00")
-    obs = run(voyage, email, [event(EventType.HOSES_DISCONNECTED, "2026-02-20T02:30", "UTC",
+    obs = run(voyage, email, [event(EventType.HOSES_DISCONNECTED, "2026-02-20T02:30", 0,
                                     quote="HOSES DISCONNECTED 20/0230")])
     assert obs.events == []
     assert "after the email was sent" in obs.checks[0].message
@@ -87,7 +87,7 @@ def test_actual_event_after_the_email_was_sent_is_ignored(voyage):
 
 def test_estimates_may_be_in_the_future(voyage):
     email = make_email("ETA COTONOU 16/0500 UTC AGW WP", sent="2026-02-03T12:05:00+00:00")
-    obs = run(voyage, email, [event(EventType.ETA, "2026-02-16T05:00", "UTC",
+    obs = run(voyage, email, [event(EventType.ETA, "2026-02-16T05:00", 0,
                                     quote="ETA COTONOU 16/0500 UTC", is_estimate=True)])
     assert obs.events[0].is_estimate
 
@@ -101,7 +101,7 @@ def test_ports_outside_the_itinerary_are_ignored(voyage):
 def test_stoppage_is_resolved_and_impossible_periods_dropped(voyage):
     email = make_email("18/02/2026 21:00 Discharge stopped - heavy rain\n19/02/2026 01:00 Discharge resumed")
     good = StoppageAnswer(port="Cotonou", category=DeductionCategory.WEATHER, reason="heavy rain",
-                          start=datetime(2026, 2, 18, 21), end=datetime(2026, 2, 19, 1), time_zone="local",
+                          start=datetime(2026, 2, 18, 21), end=datetime(2026, 2, 19, 1), utc_offset_hours=None,
                           start_quote="18/02/2026 21:00 Discharge stopped - heavy rain",
                           end_quote="19/02/2026 01:00 Discharge resumed")
     backwards = good.model_copy(update={"start": datetime(2026, 2, 19, 2)})
@@ -135,3 +135,8 @@ def test_contract_durations_are_converted_by_code():
     assert c.counts_as_laytime[DeductionCategory.WEATHER].value == 0.5
     assert "reversible" not in c.terms
     assert obs.checks == []
+
+
+def test_quote_with_a_line_break_written_as_backslash_n_still_matches():
+    email = make_email("Hoses expected\nto be connected around 17:00 LT")
+    assert quote_found("Hoses expected\\nto be connected around 17:00 LT", email)

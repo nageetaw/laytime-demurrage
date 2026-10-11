@@ -15,7 +15,6 @@ from pythonjsonlogger.json import JsonFormatter
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    # Only needed for LLM calls; SecretStr keeps it out of logs and reprs.
     openrouter_api_key: SecretStr | None = None
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
 
