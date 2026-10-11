@@ -1,0 +1,64 @@
+{
+  "models": {
+    "triage": "mistralai/mistral-small-3.2-24b-instruct",
+    "extract": "mistralai/mistral-small-3.2-24b-instruct"
+  },
+  "usage": {
+    "llm_calls": 33,
+    "cached_calls": 33,
+    "prompt_tokens": 33035,
+    "completion_tokens": 9364,
+    "cost_usd": 0.0047,
+    "llm_seconds": 248.0,
+    "slowest_call_seconds": 42.18,
+    "spent_usd": 0
+  },
+  "sections": {
+    "emails": {
+      "passed": 51,
+      "total": 53
+    },
+    "contract": {
+      "passed": 14,
+      "total": 14
+    },
+    "port calls": {
+      "passed": 6,
+      "total": 6
+    },
+    "laytime": {
+      "passed": 10,
+      "total": 10
+    },
+    "demurrage": {
+      "passed": 7,
+      "total": 7
+    },
+    "checks": {
+      "passed": 2,
+      "total": 2
+    },
+    "citations": {
+      "passed": 37,
+      "total": 37
+    },
+    "independence": {
+      "passed": 1,
+      "total": 1
+    }
+  },
+  "failures": [
+    {
+      "section": "emails",
+      "item": "email_02.eml relevance",
+      "expected": "laytime",
+      "actual": "schedule"
+    },
+    {
+      "section": "emails",
+      "item": "email_13.eml relevance",
+      "expected": "no",
+      "actual": "schedule"
+    }
+  ]
+}

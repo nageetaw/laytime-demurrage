@@ -1,0 +1,673 @@
+{
+  "summary": {
+    "vessel": "KESTREL BAY",
+    "voyage": "KB-2603",
+    "charterer": "Calderon Energy Trading SA",
+    "status": "final",
+    "as_of": "2026-02-20T09:15:48Z",
+    "position": "Sailed from Cotonou on 20 Feb 07:00. The voyage is complete.",
+    "laytime_allowed_hours": 72.0,
+    "laytime_used_hours": 133.5,
+    "hours_on_demurrage": 61.5,
+    "on_demurrage_from": "2026-02-17T09:30:00+01:00",
+    "demurrage_owed": {
+      "amount": 65343.75,
+      "currency": "USD"
+    },
+    "checks_to_review": 4
+  },
+  "contract": {
+    "laytime_allowed_hours": {
+      "value": 72.0,
+      "source": "email_01.eml",
+      "quote": "LAYTIME       : 72 HOURS SHINC, REVERSIBLE LOAD AND DISCHARGE",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "reversible": {
+      "value": true,
+      "source": "email_01.eml",
+      "quote": "REVERSIBLE LOAD AND DISCHARGE",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "basis": {
+      "value": "SHINC",
+      "source": "email_01.eml",
+      "quote": "SHINC",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "turn_time_hours": {
+      "value": 6.0,
+      "source": "email_01.eml",
+      "quote": "LAYTIME TO COMMENCE 6 HOURS AFTER NOR TENDERED",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "demurrage_rate_per_day": {
+      "value": 25500.0,
+      "source": "email_05.eml",
+      "quote": "DEMURRAGE RATE AMENDED TO USD 25,500 PER DAY PRO RATA, IN LIEU OF USD 24,000.",
+      "also_reported_in": [],
+      "replaces": [
+        {
+          "value": "24000.0",
+          "source": "email_01.eml",
+          "quote": "DEMURRAGE     : USD 24,000 PER DAY PRO RATA"
+        }
+      ]
+    },
+    "currency": "USD",
+    "pro_rata": {
+      "value": true,
+      "source": "email_01.eml",
+      "quote": "DEMURRAGE     : USD 24,000 PER DAY PRO RATA",
+      "also_reported_in": [
+        "email_05.eml"
+      ],
+      "replaces": []
+    },
+    "laytime_ends_on": {
+      "value": "hoses_disconnected",
+      "source": "email_01.eml",
+      "quote": "LAYTIME TO END ON FINAL HOSES DISCONNECTED.",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "exceptions_apply_on_demurrage": {
+      "value": true,
+      "source": "email_01.eml",
+      "quote": "THE ABOVE EXCEPTIONS TO APPLY EQUALLY WHILE THE VESSEL IS ON DEMURRAGE.",
+      "also_reported_in": [],
+      "replaces": []
+    },
+    "counts_as_laytime": {
+      "shifting_anchorage_to_berth": {
+        "value": 0.0,
+        "source": "email_01.eml",
+        "quote": "TIME USED SHIFTING FROM ANCHORAGE TO BERTH (ANCHOR AWEIGH TO ALL FAST) NOT TO COUNT\n  AS LAYTIME.",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "vessel_equipment": {
+        "value": 0.0,
+        "source": "email_01.eml",
+        "quote": "TIME LOST DUE TO BREAKDOWN OR INEFFICIENCY OF VESSEL'S EQUIPMENT NOT TO COUNT AS\n  LAYTIME.",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "weather": {
+        "value": 0.5,
+        "source": "email_01.eml",
+        "quote": "TIME LOST DUE TO ADVERSE WEATHER PREVENTING CARGO OPERATIONS TO COUNT AS HALF LAYTIME.",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "shore_terminal": {
+        "value": 1.0,
+        "source": "email_01.eml",
+        "quote": "TIME LOST DUE TO TERMINAL / SHORE REASONS AND WAITING FOR BERTH TO COUNT IN FULL.",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "waiting_for_berth": {
+        "value": 1.0,
+        "source": "email_01.eml",
+        "quote": "TIME LOST DUE TO TERMINAL / SHORE REASONS AND WAITING FOR BERTH TO COUNT IN FULL.",
+        "also_reported_in": [],
+        "replaces": []
+      }
+    }
+  },
+  "laytime": [
+    {
+      "port": "Antwerp",
+      "function": "load",
+      "nor_tendered": {
+        "value": "2026-01-30T11:00:00+01:00",
+        "source": "email_06.eml",
+        "quote": "NOR tendered                                   30 Jan 2026   11:00",
+        "also_reported_in": [
+          "email_03.eml"
+        ],
+        "replaces": []
+      },
+      "turn_time_hours": 6.0,
+      "start": "2026-01-30T17:00:00+01:00",
+      "end": {
+        "value": "2026-02-01T09:30:00+01:00",
+        "source": "email_06.eml",
+        "quote": "Hoses disconnected                             01 Feb 2026   09:30",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "counted_until": "2026-02-01T09:30:00+01:00",
+      "gross_hours": 40.5,
+      "deductions": [
+        {
+          "reason": "shore tank changeover",
+          "category": "shore_terminal",
+          "start": {
+            "value": "2026-01-31T02:00:00+01:00",
+            "source": "email_06.eml",
+            "quote": "Loading stopped - shore tank changeover        31 Jan 2026   02:00",
+            "also_reported_in": [],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-01-31T04:00:00+01:00",
+            "source": "email_06.eml",
+            "quote": "Loading resumed                                31 Jan 2026   04:00",
+            "also_reported_in": [],
+            "replaces": []
+          },
+          "hours": 2.0,
+          "counts_as_laytime": 1.0,
+          "deducted_hours": 0.0
+        },
+        {
+          "reason": "leaking manifold valve",
+          "category": "vessel_equipment",
+          "start": {
+            "value": "2026-01-31T15:00:00+01:00",
+            "source": "email_06.eml",
+            "quote": "Loading stopped - leaking manifold valve       31 Jan 2026   15:00",
+            "also_reported_in": [],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-01-31T17:30:00+01:00",
+            "source": "email_06.eml",
+            "quote": "Loading resumed                                31 Jan 2026   17:30",
+            "also_reported_in": [],
+            "replaces": []
+          },
+          "hours": 2.5,
+          "counts_as_laytime": 0.0,
+          "deducted_hours": 2.5
+        }
+      ],
+      "used_hours": 38.0
+    },
+    {
+      "port": "Cotonou",
+      "function": "discharge",
+      "nor_tendered": {
+        "value": "2026-02-15T17:30:00+01:00",
+        "source": "email_19.eml",
+        "quote": "15/02/2026 17:30   NOR tendered",
+        "also_reported_in": [
+          "email_17.eml",
+          "email_16.eml",
+          "email_15.eml"
+        ],
+        "replaces": []
+      },
+      "turn_time_hours": 6.0,
+      "start": "2026-02-15T23:30:00+01:00",
+      "end": {
+        "value": "2026-02-20T03:30:00+01:00",
+        "source": "email_19.eml",
+        "quote": "20/02/2026 03:30   Hoses disconnected",
+        "also_reported_in": [
+          "email_18.eml"
+        ],
+        "replaces": []
+      },
+      "counted_until": "2026-02-20T03:30:00+01:00",
+      "gross_hours": 100.0,
+      "deductions": [
+        {
+          "reason": "Shifting from anchorage to berth",
+          "category": "shifting_anchorage_to_berth",
+          "start": {
+            "value": "2026-02-18T06:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "18/02/2026 06:00   Anchor aweigh",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-02-18T08:30:00+01:00",
+            "source": "email_19.eml",
+            "quote": "18/02/2026 08:30   All fast Oil Jetty",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "hours": 2.5,
+          "counts_as_laytime": 0.0,
+          "deducted_hours": 2.5
+        },
+        {
+          "reason": "Vessel waiting at anchorage for berth (jetty occupied)",
+          "category": "waiting_for_berth",
+          "start": {
+            "value": "2026-02-15T17:30:00+01:00",
+            "source": "email_19.eml",
+            "quote": "15/02 17:30 - 18/02 06:00   Vessel waiting at anchorage for berth (jetty occupied)",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-02-18T06:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "15/02 17:30 - 18/02 06:00   Vessel waiting at anchorage for berth (jetty occupied)",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "hours": 54.5,
+          "counts_as_laytime": 1.0,
+          "deducted_hours": 0.0
+        },
+        {
+          "reason": "heavy rain / thunderstorm, operations suspended due to weather",
+          "category": "weather",
+          "start": {
+            "value": "2026-02-18T21:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "18/02/2026 21:00   Discharge stopped - heavy rain / thunderstorm, operations suspended due to weather",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-02-19T01:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "19/02/2026 01:00   Discharge resumed",
+            "also_reported_in": [],
+            "replaces": [
+              {
+                "value": "2026-02-19T00:30:00+01:00",
+                "source": "email_17.eml",
+                "quote": "19/02/2026 00:30   Discharge resumed"
+              }
+            ]
+          },
+          "hours": 4.0,
+          "counts_as_laytime": 0.5,
+          "deducted_hours": 2.0
+        },
+        {
+          "reason": "shore line pressure restriction (terminal)",
+          "category": "shore_terminal",
+          "start": {
+            "value": "2026-02-19T03:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "19/02/2026 03:00   Discharge stopped - shore line pressure restriction (terminal)",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "end": {
+            "value": "2026-02-19T05:00:00+01:00",
+            "source": "email_19.eml",
+            "quote": "19/02/2026 05:00   Discharge resumed",
+            "also_reported_in": [
+              "email_17.eml"
+            ],
+            "replaces": []
+          },
+          "hours": 2.0,
+          "counts_as_laytime": 1.0,
+          "deducted_hours": 0.0
+        }
+      ],
+      "used_hours": 95.5
+    }
+  ],
+  "demurrage": {
+    "status": "final",
+    "allowed_hours": 72.0,
+    "used_hours": 133.5,
+    "hours_on_demurrage": 61.5,
+    "on_demurrage_from": "2026-02-17T09:30:00+01:00",
+    "rate_per_day": 25500.0,
+    "currency": "USD",
+    "amount": 65343.75,
+    "formula": "61.5 h / 24 x 25,500.00 USD/day = 65,343.75 USD"
+  },
+  "port_calls": [
+    {
+      "seq": 1,
+      "port": "Antwerp",
+      "function": "load",
+      "arrived": {
+        "value": "2026-01-30T04:30:00+01:00",
+        "source": "email_06.eml",
+        "quote": "End of sea passage (Wandelaar)                 30 Jan 2026   04:30",
+        "also_reported_in": [
+          "email_03.eml"
+        ],
+        "replaces": []
+      },
+      "arrived_event": "eosp",
+      "sailed": {
+        "value": "2026-02-01T12:00:00+01:00",
+        "source": "email_06.eml",
+        "quote": "Pilot on board / vessel sailed                 01 Feb 2026   12:00",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "eta": null
+    },
+    {
+      "seq": 2,
+      "port": "Gibraltar",
+      "function": "bunkering",
+      "arrived": {
+        "value": "2026-02-05T20:00:00+01:00",
+        "source": "email_09.eml",
+        "quote": "Arrived Eastern anchorage        05/02  20:00",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "arrived_event": "anchored",
+      "sailed": {
+        "value": "2026-02-06T04:30:00+01:00",
+        "source": "email_09.eml",
+        "quote": "Vessel sailed for Cotonou        06/02  04:30",
+        "also_reported_in": [],
+        "replaces": []
+      },
+      "eta": null
+    },
+    {
+      "seq": 3,
+      "port": "Cotonou",
+      "function": "discharge",
+      "arrived": {
+        "value": "2026-02-15T16:20:00+01:00",
+        "source": "email_19.eml",
+        "quote": "15/02/2026 16:20   EOSP",
+        "also_reported_in": [
+          "email_17.eml",
+          "email_16.eml",
+          "email_15.eml"
+        ],
+        "replaces": []
+      },
+      "arrived_event": "eosp",
+      "sailed": {
+        "value": "2026-02-20T07:00:00+01:00",
+        "source": "email_19.eml",
+        "quote": "20/02/2026 07:00   Vessel sailed",
+        "also_reported_in": [
+          "email_18.eml"
+        ],
+        "replaces": []
+      },
+      "eta": null
+    }
+  ],
+  "emails": [
+    {
+      "file": "email_01.eml",
+      "subject": "KESTREL BAY / CALDERON - ANTWERP/COTONOU - CLEAN RECAP",
+      "sent_at": "2026-01-26T17:42:10Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "recap",
+      "relevance": "laytime",
+      "reason": "The email provides the agreed contract terms, including laytime and demurrage conditions for the voyage from Antwerp to Cotonou."
+    },
+    {
+      "file": "email_02.eml",
+      "subject": "KESTREL BAY - voyage instructions - Antwerp / Cotonou",
+      "sent_at": "2026-01-27T08:15:33Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "voyage_instructions",
+      "relevance": "laytime",
+      "reason": "The email provides detailed voyage instructions and specifies where the NOR may be tendered at the discharge port."
+    },
+    {
+      "file": "email_03.eml",
+      "subject": "MT KESTREL BAY - ARRIVAL ANTWERP - NOR TENDERED",
+      "sent_at": "2026-01-30T10:40:02Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "arrival_notice",
+      "relevance": "laytime",
+      "reason": "The email reports the actual arrival, berthing, and NOR tender times at the loading port in Antwerp."
+    },
+    {
+      "file": "email_04.eml",
+      "subject": "KESTREL POINT - drydock progress report no. 6",
+      "sent_at": "2026-01-30T14:20:47Z",
+      "vessels": [
+        "KESTREL POINT"
+      ],
+      "doc_type": null,
+      "relevance": "no",
+      "reason": "fleet vessel not on a voyage"
+    },
+    {
+      "file": "email_05.eml",
+      "subject": "RE: KESTREL BAY / CALDERON - ANTWERP/COTONOU - ADDENDUM NO.1 - CLEAN",
+      "sent_at": "2026-01-30T16:05:19Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "addendum",
+      "relevance": "laytime",
+      "reason": "The email confirms an amendment to the demurrage rate for the voyage."
+    },
+    {
+      "file": "email_06.eml",
+      "subject": "MT KESTREL BAY - ANTWERP - STATEMENT OF FACTS (FINAL)",
+      "sent_at": "2026-02-01T12:10:55Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "sof_final",
+      "relevance": "laytime",
+      "reason": "The email provides the final statement of facts for the loading operation in Antwerp, including NOR and cargo operation times."
+    },
+    {
+      "file": "email_07.eml",
+      "subject": "KESTREL BAY / Antwerp - final disbursement account",
+      "sent_at": "2026-02-02T13:22:31Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "disbursement_account",
+      "relevance": "no",
+      "reason": "The email provides the final invoice for port costs during the vessel's call at Antwerp."
+    },
+    {
+      "file": "email_08.eml",
+      "subject": "KESTREL BAY NOON REPORT 03/02",
+      "sent_at": "2026-02-03T12:05:12Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "master_report",
+      "relevance": "schedule",
+      "reason": "The vessel provides its current position and estimated arrival times for Gibraltar and Cotonou."
+    },
+    {
+      "file": "email_09.eml",
+      "subject": "MT KESTREL BAY - Gibraltar bunker call - sailing report",
+      "sent_at": "2026-02-06T04:10:40Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "port_call_report",
+      "relevance": "schedule",
+      "reason": "The email provides the arrival and departure times for the bunkering call at Gibraltar."
+    },
+    {
+      "file": "email_10.eml",
+      "subject": "KESTREL BAY - Cotonou berthing prospects",
+      "sent_at": "2026-02-10T09:48:09Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "lineup",
+      "relevance": "laytime",
+      "reason": "The email discusses congestion at the discharge port and provides instructions for tendering the NOR."
+    },
+    {
+      "file": "email_11.eml",
+      "subject": "KESTREL BAY - ETA COTONOU",
+      "sent_at": "2026-02-12T06:30:18Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "master_report",
+      "relevance": "laytime",
+      "reason": "The master provides a revised ETA for Cotonou and mentions the intention to tender NOR."
+    },
+    {
+      "file": "email_12.eml",
+      "subject": "COTONOU - OIL JETTY LINE-UP 13/02/2026",
+      "sent_at": "2026-02-13T15:02:44Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "lineup",
+      "relevance": "schedule",
+      "reason": "The email provides the current vessel line-up and ETA for the vessel at the discharge port in Cotonou."
+    },
+    {
+      "file": "email_13.eml",
+      "subject": "FW: KESTREL BAY NOON REPORT 03/02",
+      "sent_at": "2026-02-14T08:20:37Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "other",
+      "relevance": "schedule",
+      "reason": "The email requests an updated ETA for the vessel's arrival at the discharge port in Cotonou."
+    },
+    {
+      "file": "email_14.eml",
+      "subject": "NOR TENDERED - COTONOU",
+      "sent_at": "2026-02-14T12:41:06Z",
+      "vessels": [],
+      "doc_type": null,
+      "relevance": "no",
+      "reason": "no fleet vessel mentioned"
+    },
+    {
+      "file": "email_15.eml",
+      "subject": "KESTREL BAY - ARRIVAL COTONOU",
+      "sent_at": "2026-02-15T16:45:51Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "master_report",
+      "relevance": "laytime",
+      "reason": "The master reports the vessel's arrival, anchoring, and NOR tender time at the discharge port."
+    },
+    {
+      "file": "email_16.eml",
+      "subject": "RE: KESTREL BAY - ARRIVAL COTONOU",
+      "sent_at": "2026-02-15T17:05:29Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "arrival_notice",
+      "relevance": "laytime",
+      "reason": "The email reports the vessel's arrival, anchoring, and NOR tender times at the discharge port of Cotonou."
+    },
+    {
+      "file": "email_17.eml",
+      "subject": "MT KESTREL BAY - COTONOU - INTERIM SOF (up to 19/02 08:00)",
+      "sent_at": "2026-02-19T08:32:14Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "sof_interim",
+      "relevance": "laytime",
+      "reason": "The email provides an interim statement of facts for the discharge operation in Cotonou, including NOR, berthing, and cargo operation times."
+    },
+    {
+      "file": "email_18.eml",
+      "subject": "KESTREL BAY - DEPARTURE COTONOU",
+      "sent_at": "2026-02-20T06:41:03Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "master_report",
+      "relevance": "laytime",
+      "reason": "The master reports the completion of discharge and hose disconnection times at Cotonou."
+    },
+    {
+      "file": "email_19.eml",
+      "subject": "MT KESTREL BAY - COTONOU - STATEMENT OF FACTS (FINAL)",
+      "sent_at": "2026-02-20T09:15:48Z",
+      "vessels": [
+        "KESTREL BAY"
+      ],
+      "doc_type": "sof_final",
+      "relevance": "laytime",
+      "reason": "The email provides the final statement of facts for the discharge port of Cotonou, including NOR, berthing, and cargo operation times."
+    }
+  ],
+  "checks": [
+    {
+      "severity": "medium",
+      "message": "Cotonou stoppage 'heavy rain / thunderstorm, operations suspended due to weather' end: email_17.eml says 19 Feb 00:30, email_19.eml says 19 Feb 01:00; used email_19.eml (sof_final)",
+      "sources": [
+        "email_17.eml",
+        "email_19.eml"
+      ],
+      "impact_usd": null
+    },
+    {
+      "severity": "info",
+      "message": "Contract demurrage_rate_per_day changed from 24000.0 (email_01.eml) to 25500.0 (email_05.eml)",
+      "sources": [
+        "email_01.eml",
+        "email_05.eml"
+      ],
+      "impact_usd": null
+    },
+    {
+      "severity": "info",
+      "message": "Antwerp: 2.5 h deducted for 'leaking manifold valve' (vessel_equipment); confirm the cause",
+      "sources": [
+        "email_06.eml"
+      ],
+      "impact_usd": 2656.25
+    },
+    {
+      "severity": "info",
+      "message": "Cotonou: 2.0 h deducted for 'heavy rain / thunderstorm, operations suspended due to weather' (weather); confirm the cause",
+      "sources": [
+        "email_19.eml"
+      ],
+      "impact_usd": 2125.0
+    }
+  ],
+  "run": {
+    "models": {
+      "triage": "google/gemma-4-31b-it",
+      "extract": "google/gemini-3.8-flash"
+    },
+    "emails_processed": 19,
+    "llm_calls": 33,
+    "cached_calls": 33,
+    "prompt_tokens": 45171,
+    "completion_tokens": 20690,
+    "cost_usd": 0.098,
+    "llm_seconds": 150.4,
+    "slowest_call_seconds": 17.28,
+    "spent_usd": 0
+  }
+}

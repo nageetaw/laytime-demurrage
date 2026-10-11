@@ -1,0 +1,135 @@
+{
+  "models": {
+    "triage": "openai/gpt-oss-20b",
+    "extract": "openai/gpt-oss-120b"
+  },
+  "usage": {
+    "llm_calls": 33,
+    "cached_calls": 33,
+    "prompt_tokens": 32998,
+    "completion_tokens": 19995,
+    "cost_usd": 0.0059,
+    "llm_seconds": 279.1,
+    "slowest_call_seconds": 36.92,
+    "spent_usd": 0
+  },
+  "sections": {
+    "emails": {
+      "passed": 52,
+      "total": 53
+    },
+    "contract": {
+      "passed": 13,
+      "total": 14
+    },
+    "port calls": {
+      "passed": 5,
+      "total": 6
+    },
+    "laytime": {
+      "passed": 4,
+      "total": 10
+    },
+    "demurrage": {
+      "passed": 3,
+      "total": 7
+    },
+    "checks": {
+      "passed": 2,
+      "total": 2
+    },
+    "citations": {
+      "passed": 24,
+      "total": 24
+    },
+    "independence": {
+      "passed": 1,
+      "total": 1
+    }
+  },
+  "failures": [
+    {
+      "section": "emails",
+      "item": "email_13.eml relevance",
+      "expected": "no",
+      "actual": "schedule"
+    },
+    {
+      "section": "contract",
+      "item": "laytime_ends_on",
+      "expected": "hoses_disconnected",
+      "actual": "eosp"
+    },
+    {
+      "section": "port calls",
+      "item": "Gibraltar arrived",
+      "expected": "2026-02-05T20:00+01:00",
+      "actual": null
+    },
+    {
+      "section": "laytime",
+      "item": "Antwerp end",
+      "expected": "2026-02-01T09:30+01:00",
+      "actual": "2026-01-30T04:30:00+01:00"
+    },
+    {
+      "section": "laytime",
+      "item": "Antwerp used_hours",
+      "expected": 38.0,
+      "actual": 12.5
+    },
+    {
+      "section": "laytime",
+      "item": "Antwerp deducted hours",
+      "expected": {
+        "vessel_equipment": 2.5
+      },
+      "actual": {}
+    },
+    {
+      "section": "laytime",
+      "item": "Cotonou end",
+      "expected": "2026-02-20T03:30+01:00",
+      "actual": "2026-02-15T16:20:00+01:00"
+    },
+    {
+      "section": "laytime",
+      "item": "Cotonou used_hours",
+      "expected": 95.5,
+      "actual": 7.17
+    },
+    {
+      "section": "laytime",
+      "item": "Cotonou deducted hours",
+      "expected": {
+        "shifting_anchorage_to_berth": 2.5,
+        "weather": 2.0
+      },
+      "actual": {}
+    },
+    {
+      "section": "demurrage",
+      "item": "used_hours",
+      "expected": 133.5,
+      "actual": 19.67
+    },
+    {
+      "section": "demurrage",
+      "item": "hours_on_demurrage",
+      "expected": 61.5,
+      "actual": 0.0
+    },
+    {
+      "section": "demurrage",
+      "item": "on_demurrage_from",
+      "expected": "2026-02-17T09:30+01:00",
+      "actual": null
+    },
+    {
+      "section": "demurrage",
+      "item": "amount",
+      "expected": 65343.75,
+      "actual": 0.0
+    }
+  ]
+}
