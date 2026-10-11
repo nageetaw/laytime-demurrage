@@ -88,9 +88,12 @@ def _eval(args: argparse.Namespace, settings: Settings, llm: LLMClient) -> None:
     for line in failures:
         print(f"  FAIL  {line.section}: {line.item}: expected {line.expected!r}, got {line.actual!r}")
 
-    # One folder per voyage and model pair, keeping each model's output next to its score.
-    name = f"{gold['voyage']}__{settings.triage_model}__{settings.extract_model}"
-    folder = report.write(built, args.runs / name.replace("/", "_").replace(":", "-"))
+    # eval/runs/<voyage>/experiment_<n>: each eval gets the next number; the models are in scorecard.json.
+    voyage_dir = args.runs / gold["voyage"]
+    n = 1
+    while (voyage_dir / f"experiment_{n}").exists():
+        n += 1
+    folder = report.write(built, voyage_dir / f"experiment_{n}")
     (folder / "scorecard.json").write_text(json.dumps({
         "models": {"triage": settings.triage_model, "extract": settings.extract_model},
         "usage": usage,

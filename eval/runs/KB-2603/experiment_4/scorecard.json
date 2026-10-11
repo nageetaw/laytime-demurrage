@@ -5,13 +5,13 @@
   },
   "usage": {
     "llm_calls": 33,
-    "cached_calls": 0,
+    "cached_calls": 33,
     "prompt_tokens": 32998,
     "completion_tokens": 19995,
     "cost_usd": 0.0059,
     "llm_seconds": 279.1,
     "slowest_call_seconds": 36.92,
-    "spent_usd": 0.0059
+    "spent_usd": 0
   },
   "sections": {
     "emails": {

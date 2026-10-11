@@ -1,17 +1,17 @@
 {
   "models": {
-    "triage": "google/gemma-4-31b-it",
+    "triage": "google/gemini-3.5-flash-lite",
     "extract": "google/gemini-3.8-flash"
   },
   "usage": {
-    "llm_calls": 33,
-    "cached_calls": 15,
-    "prompt_tokens": 45171,
-    "completion_tokens": 20690,
-    "cost_usd": 0.098,
-    "llm_seconds": 150.4,
+    "llm_calls": 32,
+    "cached_calls": 32,
+    "prompt_tokens": 46374,
+    "completion_tokens": 20604,
+    "cost_usd": 0.1024,
+    "llm_seconds": 125.4,
     "slowest_call_seconds": 17.28,
-    "spent_usd": 0.0034
+    "spent_usd": 0
   },
   "sections": {
     "emails": {
@@ -50,8 +50,8 @@
   "failures": [
     {
       "section": "emails",
-      "item": "email_13.eml relevance",
-      "expected": "no",
+      "item": "email_10.eml relevance",
+      "expected": "laytime",
       "actual": "schedule"
     }
   ]

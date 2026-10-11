@@ -662,12 +662,12 @@
     },
     "emails_processed": 19,
     "llm_calls": 32,
-    "cached_calls": 0,
+    "cached_calls": 32,
     "prompt_tokens": 46374,
     "completion_tokens": 20604,
     "cost_usd": 0.1024,
     "llm_seconds": 125.4,
     "slowest_call_seconds": 17.28,
-    "spent_usd": 0.1024
+    "spent_usd": 0
   }
 }
