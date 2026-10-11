@@ -1,0 +1,58 @@
+{
+  "models": {
+    "triage": "google/gemma-4-31b-it",
+    "extract": "google/gemini-3.8-flash"
+  },
+  "usage": {
+    "llm_calls": 33,
+    "cached_calls": 15,
+    "prompt_tokens": 45171,
+    "completion_tokens": 20690,
+    "cost_usd": 0.098,
+    "llm_seconds": 150.4,
+    "slowest_call_seconds": 17.28,
+    "spent_usd": 0.0034
+  },
+  "sections": {
+    "emails": {
+      "passed": 52,
+      "total": 53
+    },
+    "contract": {
+      "passed": 14,
+      "total": 14
+    },
+    "port calls": {
+      "passed": 6,
+      "total": 6
+    },
+    "laytime": {
+      "passed": 10,
+      "total": 10
+    },
+    "demurrage": {
+      "passed": 7,
+      "total": 7
+    },
+    "checks": {
+      "passed": 2,
+      "total": 2
+    },
+    "citations": {
+      "passed": 37,
+      "total": 37
+    },
+    "independence": {
+      "passed": 1,
+      "total": 1
+    }
+  },
+  "failures": [
+    {
+      "section": "emails",
+      "item": "email_13.eml relevance",
+      "expected": "no",
+      "actual": "schedule"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "voyage": "KB-2603",
+  "notes": [
+    "Answer key worked out by hand from the emails, TASK.md and DOMAIN.md. Times are local port time (UTC+1).",
+    "doc_type null = not scored: the type is genuinely ambiguous (e.g. a charterer's update) or the email never reaches the LLM.",
+    "email_10 and email_11 are 'laytime': they restate where NOR may be tendered, which the triage prompt defines as affecting how laytime applies."
+  ],
+  "emails": {
+    "email_01.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "recap"},
+    "email_02.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "voyage_instructions"},
+    "email_03.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "arrival_notice"},
+    "email_04.eml": {"vessels": ["KESTREL POINT"], "relevance": "no", "doc_type": null},
+    "email_05.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "addendum"},
+    "email_06.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "sof_final"},
+    "email_07.eml": {"vessels": ["KESTREL BAY"], "relevance": "no", "doc_type": "disbursement_account"},
+    "email_08.eml": {"vessels": ["KESTREL BAY"], "relevance": "schedule", "doc_type": "master_report"},
+    "email_09.eml": {"vessels": ["KESTREL BAY"], "relevance": "schedule", "doc_type": "port_call_report"},
+    "email_10.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": null},
+    "email_11.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "master_report"},
+    "email_12.eml": {"vessels": ["KESTREL BAY"], "relevance": "schedule", "doc_type": "lineup"},
+    "email_13.eml": {"vessels": ["KESTREL BAY"], "relevance": "no", "doc_type": null},
+    "email_14.eml": {"vessels": [], "relevance": "no", "doc_type": null},
+    "email_15.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "master_report"},
+    "email_16.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "arrival_notice"},
+    "email_17.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "sof_interim"},
+    "email_18.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "master_report"},
+    "email_19.eml": {"vessels": ["KESTREL BAY"], "relevance": "laytime", "doc_type": "sof_final"}
+  },
+  "contract": {
+    "laytime_allowed_hours": 72,
+    "reversible": true,
+    "basis": "SHINC",
+    "turn_time_hours": 6,
+    "demurrage_rate_per_day": 25500,
+    "currency": "USD",
+    "pro_rata": true,
+    "laytime_ends_on": "hoses_disconnected",
+    "exceptions_apply_on_demurrage": true,
+    "counts_as_laytime": {
+      "shifting_anchorage_to_berth": 0,
+      "vessel_equipment": 0,
+      "weather": 0.5,
+      "shore_terminal": 1,
+      "waiting_for_berth": 1
+    }
+  },
+  "port_calls": {
+    "Antwerp": {"arrived": "2026-01-30T04:30+01:00", "sailed": "2026-02-01T12:00+01:00"},
+    "Gibraltar": {"arrived": "2026-02-05T20:00+01:00", "sailed": "2026-02-06T04:30+01:00"},
+    "Cotonou": {"arrived": "2026-02-15T16:20+01:00", "sailed": "2026-02-20T07:00+01:00"}
+  },
+  "laytime": {
+    "Antwerp": {
+      "nor_tendered": "2026-01-30T11:00+01:00",
+      "start": "2026-01-30T17:00+01:00",
+      "end": "2026-02-01T09:30+01:00",
+      "deducted_hours": {"vessel_equipment": 2.5},
+      "used_hours": 38.0
+    },
+    "Cotonou": {
+      "nor_tendered": "2026-02-15T17:30+01:00",
+      "start": "2026-02-15T23:30+01:00",
+      "end": "2026-02-20T03:30+01:00",
+      "deducted_hours": {"shifting_anchorage_to_berth": 2.5, "weather": 2.0},
+      "used_hours": 95.5
+    }
+  },
+  "demurrage": {
+    "status": "final",
+    "allowed_hours": 72,
+    "used_hours": 133.5,
+    "hours_on_demurrage": 61.5,
+    "on_demurrage_from": "2026-02-17T09:30+01:00",
+    "rate_per_day": 25500,
+    "amount": 65343.75
+  },
+  "required_checks": [
+    {"about": "rain stoppage end corrected from interim to final SOF", "sources": ["email_17.eml", "email_19.eml"]},
+    {"about": "demurrage rate amended by the addendum", "sources": ["email_01.eml", "email_05.eml"]}
+  ]
+}
