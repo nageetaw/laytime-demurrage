@@ -79,7 +79,7 @@ part (times, time zones, contract clauses, exact quotes), so it uses a stronger 
 about 32 LLM calls and costs about **$0.10**. Costs are the real amounts OpenRouter reports, and every
 run's cost, tokens and time are in `eval/runs/KB-2603/experiment_<n>/scorecard.json`.
 
-To compare, I tried open models I am more familar, GPT-OSS and Gemma, and Mistral.
+To compare, I tried open models I am more familar and are smaller so suitable for this task too, GPT-OSS and Gemma, and Mistral.
 
 | # | Triage + extraction | Score | Demurrage | Cost per run | LLM time |
 |---|---|---|---|---|---|
