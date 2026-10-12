@@ -113,7 +113,10 @@ To compare, I tried open models I am more familar, GPT-OSS and Gemma, and Mistra
 - More checks in code, based on the business rules. The calculation depends on times, so code should check that they make sense for example, laytime cannot end before it starts.
 - A bigger, better evaluation set, Today there is one voyage of one vessel and 19 emails, and an answer key I could only partly verify. I can either find an open databse, or used an llm to generate one.
 - Spend some more time in understanding the domain, there is possibility that I may miss something concepts in current versions
-
+- Change the prompts and re-run the evaluation with each model, to see how much the results depend
+  on the prompt wording and how much on the model.
+- Edit some emails myself (other date formats, typos, a missing final statement of facts) and see how
+  the output changes. Since I know the right answer for each edit, this also tests the answer key.
 
 ## How I used AI ?
 
